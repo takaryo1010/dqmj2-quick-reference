@@ -231,82 +231,6 @@
 
         .analysis-section {
             margin: 20px 0;
-            padding: 20px;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            background: #f8f9fa;
-        }
-
-        .filter-section {
-            margin: 20px 0;
-            padding: 20px;
-            border: 1px solid #007bff;
-            border-radius: 8px;
-            background: #f0f8ff;
-        }
-
-        .filter-section h4 {
-            margin: 0 0 15px 0;
-            color: #007bff;
-            font-size: 1.1rem;
-        }
-
-        .filter-categories {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .filter-group {
-            display: flex;
-            align-items: center;
-        }
-
-        .filter-group label {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            padding: 5px;
-            border-radius: 4px;
-            transition: background-color 0.2s ease;
-            width: 100%;
-        }
-
-        .filter-group label:hover {
-            background-color: rgba(0, 123, 255, 0.1);
-        }
-
-        .filter-group input[type="checkbox"] {
-            margin-right: 8px;
-            transform: scale(1.1);
-        }
-
-        .filter-label {
-            font-size: 0.9rem;
-            color: #495057;
-        }
-
-        .filter-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        .filter-btn {
-            padding: 6px 12px;
-            border: 1px solid #007bff;
-            background: white;
-            color: #007bff;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: all 0.2s ease;
-        }
-
-        .filter-btn:hover {
-            background: #007bff;
-            color: white;
         }
 
         .analysis-section h3 {
@@ -595,54 +519,6 @@
                 </div>
                 
                 <div id="main-display" style="display: none;">
-                    <!-- フィルターコントロール -->
-                    <div id="filter-controls" class="filter-section" style="display: none;">
-                        <h4>🔍 分析フィルター</h4>
-                        <div class="filter-categories">
-                            <div class="filter-group">
-                                <label>
-                                    <input type="checkbox" id="filter-spells" checked> 
-                                    <span class="filter-label">呪文系 (メラ、ギラ、ヒャドなど)</span>
-                                </label>
-                            </div>
-                            <div class="filter-group">
-                                <label>
-                                    <input type="checkbox" id="filter-breath" checked> 
-                                    <span class="filter-label">ブレス系 (炎ブレス、吹雪など)</span>
-                                </label>
-                            </div>
-                            <div class="filter-group">
-                                <label>
-                                    <input type="checkbox" id="filter-status" checked> 
-                                    <span class="filter-label">状態異常 (マヒ、眠り、混乱など)</span>
-                                </label>
-                            </div>
-                            <div class="filter-group">
-                                <label>
-                                    <input type="checkbox" id="filter-debuff" checked> 
-                                    <span class="filter-label">能力低下 (ルカニ、ダウン、ボミエなど)</span>
-                                </label>
-                            </div>
-                            <div class="filter-group">
-                                <label>
-                                    <input type="checkbox" id="filter-seal" checked> 
-                                    <span class="filter-label">封じ系 (体技封じ、息封じなど)</span>
-                                </label>
-                            </div>
-                            <div class="filter-group">
-                                <label>
-                                    <input type="checkbox" id="filter-other" checked> 
-                                    <span class="filter-label">その他 (マホトラ、ハックなど)</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="filter-actions">
-                            <button id="filter-all" class="filter-btn">全選択</button>
-                            <button id="filter-none" class="filter-btn">全解除</button>
-                            <button id="filter-reset" class="filter-btn">リセット</button>
-                        </div>
-                    </div>
-
                     <div id="analysis-section" class="analysis-section" style="display: none;">
                         <h3>🎯 攻撃効果分析</h3>
                         

@@ -76,42 +76,6 @@ function setupEventListeners() {
             }
         }
     });
-    
-    // フィルターコントロールのイベントリスナー
-    setupFilterControls();
-}
-
-// フィルターコントロールの設定
-function setupFilterControls() {
-    // フィルターチェックボックスの変更イベント
-    const filterCheckboxes = document.querySelectorAll('#filter-controls input[type="checkbox"]');
-    filterCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', updateDisplay);
-    });
-    
-    // 全選択ボタン
-    document.getElementById('filter-all').addEventListener('click', function() {
-        filterCheckboxes.forEach(checkbox => {
-            checkbox.checked = true;
-        });
-        updateDisplay();
-    });
-    
-    // 全解除ボタン
-    document.getElementById('filter-none').addEventListener('click', function() {
-        filterCheckboxes.forEach(checkbox => {
-            checkbox.checked = false;
-        });
-        updateDisplay();
-    });
-    
-    // リセットボタン
-    document.getElementById('filter-reset').addEventListener('click', function() {
-        filterCheckboxes.forEach(checkbox => {
-            checkbox.checked = true;
-        });
-        updateDisplay();
-    });
 }
 
 // ドロップダウンの切り替え
@@ -397,24 +361,20 @@ function updateDisplay() {
     const infoMessage = document.getElementById('info-message');
     const analysisSection = document.getElementById('analysis-section');
     const singleAnalysis = document.getElementById('single-analysis');
-    const filterControls = document.getElementById('filter-controls');
     
     if (count === 0) {
         infoMessage.style.display = 'block';
         analysisSection.style.display = 'none';
         singleAnalysis.style.display = 'none';
-        filterControls.style.display = 'none';
     } else if (count === 1) {
         infoMessage.style.display = 'none';
         analysisSection.style.display = 'none';
         singleAnalysis.style.display = 'block';
-        filterControls.style.display = 'block';
         updateSingleAnalysis(validMonsters[0], resistanceLevels[selectedMonsters.indexOf(validMonsters[0])]);
     } else {
         infoMessage.style.display = 'none';
         analysisSection.style.display = 'block';
         singleAnalysis.style.display = 'none';
-        filterControls.style.display = 'block';
         updateComparisonAnalysis(validMonsters);
     }
     
@@ -765,37 +725,6 @@ function parseResistanceInfo(resistanceText) {
     return resistances;
 }
 
-// 属性をカテゴリ別に分類
-function getAttributeCategory(attribute) {
-    const categories = {
-        spells: ['メラ', 'ギラ', 'ヒャド', 'バギ', 'イオ', 'デイン', 'ドルマ'],
-        breath: ['炎ブレス', '吹雪', '吹雪ブレス'],
-        status: ['ザキ', 'マヒ', '眠り', '混乱', '毒', '休み'],
-        debuff: ['ルカニ', 'ダウン', 'ボミエ', 'フール', 'マインド', 'ベタン'],
-        seal: ['マホトーン', '体技封じ', '息封じ', '斬撃封じ', '踊り封じ'],
-        other: ['マホトラ', 'ハック', 'マヌーサ', '踊り']
-    };
-    
-    for (const [category, attrs] of Object.entries(categories)) {
-        if (attrs.includes(attribute)) {
-            return category;
-        }
-    }
-    return 'other';
-}
-
-// フィルターが有効な属性かチェック
-function isAttributeFiltered(attribute) {
-    const category = getAttributeCategory(attribute);
-    const checkbox = document.getElementById(`filter-${category}`);
-    return checkbox ? checkbox.checked : true;
-}
-
-// フィルタリングされた属性リストを取得
-function getFilteredAttributes(allAttributes) {
-    return allAttributes.filter(attr => isAttributeFiltered(attr));
-}
-
 // 単体モンスター分析
 function analyzeSingleMonster(resistanceInfo, resistanceLevel) {
     const allAttributes = [
@@ -813,9 +742,6 @@ function analyzeSingleMonster(resistanceInfo, resistanceLevel) {
         'マホトラ', 'ハック', 'マヌーサ', '踊り'
     ];
     
-    // フィルターを適用
-    const filteredAttributes = getFilteredAttributes(allAttributes);
-    
     const analysis = {
         weakness: [],
         normal: [],
@@ -823,7 +749,7 @@ function analyzeSingleMonster(resistanceInfo, resistanceLevel) {
         null: []
     };
     
-    filteredAttributes.forEach(attr => {
+    allAttributes.forEach(attr => {
         const isWeak = resistanceInfo.弱点.some(weak => weak.includes(attr));
         
         let isHalf = false;
@@ -898,14 +824,11 @@ function analyzeCommonWeaknesses(validMonsters) {
         'マホトラ', 'ハック', 'マヌーサ', '踊り'
     ];
     
-    // フィルターを適用
-    const filteredAttributes = getFilteredAttributes(allAttributes);
-    
     const effectiveAttacks = [];
     const ineffectiveAttacks = [];
     const details = {};
     
-    filteredAttributes.forEach(attr => {
+    allAttributes.forEach(attr => {
         const resistanceDetails = [];
         let effectiveForAll = true;
         let hasWeakness = false;
