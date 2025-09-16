@@ -727,7 +727,20 @@ function parseResistanceInfo(resistanceText) {
 
 // 単体モンスター分析
 function analyzeSingleMonster(resistanceInfo, resistanceLevel) {
-    const allAttributes = ['メラ', 'ギラ', 'ヒャド', 'バギ', 'イオ', 'デイン', 'ドルマ', 'ザキ', 'マヒ', '眠り', '混乱', '毒', 'マホトーン'];
+    const allAttributes = [
+        // 呪文系
+        'メラ', 'ギラ', 'ヒャド', 'バギ', 'イオ', 'デイン', 'ドルマ',
+        // ブレス系
+        '炎ブレス', '吹雪', '吹雪ブレス',
+        // 即死・状態異常
+        'ザキ', 'マヒ', '眠り', '混乱', '毒', '休み',
+        // 能力低下系
+        'ルカニ', 'ダウン', 'ボミエ', 'フール', 'マインド', 'ベタン',
+        // 封じ系
+        'マホトーン', '体技封じ', '息封じ', '斬撃封じ', '踊り封じ',
+        // その他
+        'マホトラ', 'ハック', 'マヌーサ', '踊り'
+    ];
     
     const analysis = {
         weakness: [],
@@ -796,7 +809,20 @@ function analyzeSingleMonster(resistanceInfo, resistanceLevel) {
 
 // 共通弱点分析
 function analyzeCommonWeaknesses(validMonsters) {
-    const allAttributes = ['メラ', 'ギラ', 'ヒャド', 'バギ', 'イオ', 'デイン', 'ドルマ', 'ザキ', 'マヒ', '眠り', '混乱', '毒', 'マホトーン'];
+    const allAttributes = [
+        // 呪文系
+        'メラ', 'ギラ', 'ヒャド', 'バギ', 'イオ', 'デイン', 'ドルマ',
+        // ブレス系
+        '炎ブレス', '吹雪', '吹雪ブレス',
+        // 即死・状態異常
+        'ザキ', 'マヒ', '眠り', '混乱', '毒', '休み',
+        // 能力低下系
+        'ルカニ', 'ダウン', 'ボミエ', 'フール', 'マインド', 'ベタン',
+        // 封じ系
+        'マホトーン', '体技封じ', '息封じ', '斬撃封じ', '踊り封じ',
+        // その他
+        'マホトラ', 'ハック', 'マヌーサ', '踊り'
+    ];
     
     const effectiveAttacks = [];
     const ineffectiveAttacks = [];
