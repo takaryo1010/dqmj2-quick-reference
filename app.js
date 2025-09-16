@@ -695,6 +695,10 @@ function parseResistanceInfo(resistanceText) {
                 halfPart = halfPart.replace('（強の場合）', '').trim();
                 const halfAttrs = halfPart.replace(/・/g, '・').split('・').map(s => s.trim()).filter(s => s);
                 resistances['半減'].push(...halfAttrs.map(attr => `◆${attr}`));
+            } else if (line.includes('（最強の場合）')) {
+                halfPart = halfPart.replace('（最強の場合）', '').trim();
+                const halfAttrs = halfPart.replace(/・/g, '・').split('・').map(s => s.trim()).filter(s => s);
+                resistances['半減'].push(...halfAttrs.map(attr => `◆◆${attr}`));
             } else {
                 const halfAttrs = halfPart.replace(/・/g, '・').split('・').map(s => s.trim()).filter(s => s);
                 resistances['半減'].push(...halfAttrs);
@@ -703,7 +707,11 @@ function parseResistanceInfo(resistanceText) {
         
         if (line.includes('無効')) {
             let nullPart = line.includes('を無効') ? line.split('を無効')[0] : line.split('が無効')[0];
-            if (line.includes('（最強の場合）')) {
+            if (line.includes('（強の場合）')) {
+                nullPart = nullPart.replace('（強の場合）', '').trim();
+                const nullAttrs = nullPart.replace(/・/g, '・').split('・').map(s => s.trim()).filter(s => s);
+                resistances['無効'].push(...nullAttrs.map(attr => `◆${attr}`));
+            } else if (line.includes('（最強の場合）')) {
                 nullPart = nullPart.replace('（最強の場合）', '').trim();
                 const nullAttrs = nullPart.replace(/・/g, '・').split('・').map(s => s.trim()).filter(s => s);
                 resistances['無効'].push(...nullAttrs.map(attr => `◆◆${attr}`));
@@ -738,9 +746,16 @@ function analyzeSingleMonster(resistanceInfo, resistanceLevel) {
         resistanceInfo.半減.forEach(half => {
             const cleanHalf = half.replace(/◆/g, '');
             if (cleanHalf.includes(attr)) {
-                if (resistanceLevel === '通常' || 
-                    (resistanceLevel === '強' && half.includes('◆')) ||
-                    resistanceLevel === '最強') {
+                // 通常レベル：◆なしの半減 + 強・最強でも適用
+                if (!half.includes('◆')) {
+                    isHalf = true;
+                }
+                // 強レベル：◆ありの半減も追加で適用
+                else if (resistanceLevel === '強' && half.includes('◆') && !half.includes('◆◆')) {
+                    isHalf = true;
+                }
+                // 最強レベル：◆◆ありの半減も追加で適用
+                else if (resistanceLevel === '最強' && half.includes('◆◆')) {
                     isHalf = true;
                 }
             }
@@ -750,9 +765,16 @@ function analyzeSingleMonster(resistanceInfo, resistanceLevel) {
         resistanceInfo.無効.forEach(null_item => {
             const cleanNull = null_item.replace(/◆/g, '');
             if (cleanNull.includes(attr)) {
-                if (resistanceLevel === '通常' ||
-                    (resistanceLevel === '強' && null_item.includes('◆')) ||
-                    (resistanceLevel === '最強' && null_item.includes('◆◆'))) {
+                // 通常レベル：◆なしの無効 + 強・最強でも適用
+                if (!null_item.includes('◆')) {
+                    isNull = true;
+                }
+                // 強レベル：◆ありの無効も追加で適用
+                else if (resistanceLevel === '強' && null_item.includes('◆') && !null_item.includes('◆◆')) {
+                    isNull = true;
+                }
+                // 最強レベル：◆◆ありの無効も追加で適用
+                else if (resistanceLevel === '最強' && null_item.includes('◆◆')) {
                     isNull = true;
                 }
             }
@@ -802,9 +824,16 @@ function analyzeCommonWeaknesses(validMonsters) {
                 resistanceInfo.半減.forEach(half => {
                     const cleanHalf = half.replace(/◆/g, '');
                     if (cleanHalf.includes(attr)) {
-                        if (resistanceLevel === '通常' || 
-                            (resistanceLevel === '強' && half.includes('◆')) ||
-                            resistanceLevel === '最強') {
+                        // 通常レベル：◆なしの半減 + 強・最強でも適用
+                        if (!half.includes('◆')) {
+                            isHalf = true;
+                        }
+                        // 強レベル：◆ありの半減も追加で適用
+                        else if (resistanceLevel === '強' && half.includes('◆') && !half.includes('◆◆')) {
+                            isHalf = true;
+                        }
+                        // 最強レベル：◆◆ありの半減も追加で適用
+                        else if (resistanceLevel === '最強' && half.includes('◆◆')) {
                             isHalf = true;
                         }
                     }
@@ -814,9 +843,16 @@ function analyzeCommonWeaknesses(validMonsters) {
                 resistanceInfo.無効.forEach(null_item => {
                     const cleanNull = null_item.replace(/◆/g, '');
                     if (cleanNull.includes(attr)) {
-                        if (resistanceLevel === '通常' ||
-                            (resistanceLevel === '強' && null_item.includes('◆')) ||
-                            (resistanceLevel === '最強' && null_item.includes('◆◆'))) {
+                        // 通常レベル：◆なしの無効 + 強・最強でも適用
+                        if (!null_item.includes('◆')) {
+                            isNull = true;
+                        }
+                        // 強レベル：◆ありの無効も追加で適用
+                        else if (resistanceLevel === '強' && null_item.includes('◆') && !null_item.includes('◆◆')) {
+                            isNull = true;
+                        }
+                        // 最強レベル：◆◆ありの無効も追加で適用
+                        else if (resistanceLevel === '最強' && null_item.includes('◆◆')) {
                             isNull = true;
                         }
                     }
